@@ -10,6 +10,7 @@
 #include "Library/Clock.h"
 #include "Library/Bump.h"
 #include "Library/Motor.h"
+#include "Library/Encoder.h"
 
 void Initialize_System();
 
@@ -23,8 +24,8 @@ int left_motor_dir = 0;
 int right_motor_pwm = 0;
 int right_motor_dir = 0;
 
-
-
+int gc_left_motor_count = 0;
+int gc_right_motor_count = 0;
 
 int main(void)
 {
@@ -39,6 +40,8 @@ int main(void)
     Bump_Init();
 
     Motor_Init();
+
+    encoder_init();
 
     left_motor_pwm = 0;
     right_motor_pwm = 0;
@@ -84,6 +87,9 @@ int main(void)
             MAP_GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN6);
         else
             MAP_GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN6);
+
+        gc_left_motor_count = get_left_motor_count();
+        gc_right_motor_count = get_right_motor_count();
 
         Clock_Delay1ms(10);
     }
