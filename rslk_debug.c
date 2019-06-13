@@ -78,15 +78,22 @@ int main(void)
         Set_Left_Motor_PWM(left_motor_pwm);
         Set_Right_Motor_PWM(right_motor_pwm);
 
+
+
+        MAP_GPIO_setOutputHighOnPin(GPIO_PORT_P8, GPIO_PIN0);
+
+
+        //printf("test");
         // Set DIR from GC global variable
-        if (left_motor_dir)
-            MAP_GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN7);
+        if (left_motor_dir==1) {
+            MAP_GPIO_setOutputHighOnPin(GPIO_PORT_P5, GPIO_PIN4);
+        } else {
+            MAP_GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4);
+        }
+        if (right_motor_dir==1)
+            MAP_GPIO_setOutputHighOnPin(GPIO_PORT_P5, GPIO_PIN5);
         else
-            MAP_GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN7);
-        if (right_motor_dir)
-            MAP_GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN6);
-        else
-            MAP_GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN6);
+            MAP_GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN5);
 
         gc_left_motor_count = get_left_motor_count();
         gc_right_motor_count = get_right_motor_count();
@@ -102,6 +109,14 @@ void Initialize_System()
 
     /* Configuring GPIO LED1 as an output */
     MAP_GPIO_setAsOutputPin(GPIO_PORT_P1, GPIO_PIN0);
+
+//    MAP_GPIO_setAsOutputPin(GPIO_PORT_P8, GPIO_PIN0);
+//    MAP_GPIO_setAsOutputPin(GPIO_PORT_P8, GPIO_PIN5);
+
+    MAP_GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN4);
+    MAP_GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN5);
+
+
 
     /* Configuring SysTick to trigger at 1500000 (MCLK is 1.5MHz so this will
      * make it toggle every 1s) */
